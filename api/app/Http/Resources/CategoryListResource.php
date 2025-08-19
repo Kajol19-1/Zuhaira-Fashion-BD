@@ -20,6 +20,7 @@ class CategoryListResource extends JsonResource
             'id'=>$this->id,
              'name'=>$this->name,
              'slug'=>$this->slug,
+             'description'=>$this->description,
              'serial'=>$this->serial,
              'status'=>$this->status ===1 ? 'Active' : 'Inactive',
              'photo'=>ImageManager::prepareImageUrl(Category::THUMB_IMAGE_UPLOAD_PATH, $this->photo),

@@ -5,7 +5,8 @@ import Constants from "../../../Contants";
 import axios from "axios";
 import CategoryPhotoModal from "../../partials/modals/CategoryPhotoModal";
 import Pagination from "react-js-pagination";
-
+import { Link, useNavigate } from "react-router-dom";
+import CategoryDetailsModal from "../../partials/modals/CategoryDetailsModal";
 
 const CategoryList = () => {
 
@@ -17,7 +18,8 @@ const CategoryList = () => {
 
     })
     const [isLLoading,setsLoading] = useState(false)
-    
+    const [category,setCategory] = useState([])
+
     const [itemsCountPerPage, setItemsCountPerPage] = useState(0)
     const [totalItemsCount, setTotalItemsCount] = useState(1)
     const [startFrom, setStartFrom] = useState(1)
@@ -49,7 +51,10 @@ const CategoryList = () => {
         setModalPhoto(photo)
         setModalShow(true)
     }
-
+    const handleDetailsModal = (category) => {
+            setCategory(category) 
+            setModalShow(true)
+        }
     useEffect( () => {
         getCategories()
 
@@ -187,7 +192,11 @@ const CategoryList = () => {
                                                                  <p className={'text-theme'}><small>Created: {category.created_at}</small></p>
                                                                 <p className={'text-info'}><small>Updated: {category.updated_at}</small></p>
                                                             </td>
-                                                            <td>Action</td>
+                                                            <td>
+                                                                <button onClick={()=>handleDetailsModal(category)} className={'btn btn-sm btn-info my-1'}><i className="fa-solid fa-eye" /></button>
+                                                                <Link to={'/'}><button className={'btn btn-sm btn-warning my-1 mx-1'}><i className="fa-solid fa-edit" /></button></Link>
+                                                                <button className={'btn btn-sm btn-danger my-1'}><i className="fa-solid fa-trash" /></button>
+                                                            </td>
                                                         </tr>
                                                         ))}
                                                         
@@ -199,6 +208,13 @@ const CategoryList = () => {
                                                              title={'Category Photo'}
                                                              size={''}
                                                              photo={modalPhoto}
+                                                            />
+                                                            <CategoryDetailsModal
+                                                             show={modalShow}
+                                                             onHide={() => setModalShow(false)}
+                                                             title={'Category Details'}
+                                                             size={''}
+                                                             category={category}
                                                             />
                                             </div>
                                                             <div className="card-footer">

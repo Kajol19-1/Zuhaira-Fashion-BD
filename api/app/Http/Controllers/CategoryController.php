@@ -15,7 +15,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request )
+   Final public function index(Request $request )
     {
       $categories = (new Category())-> getAllCategories($request->all()) ;
       return CategoryListResource::collection($categories);
