@@ -112,12 +112,12 @@ const CategoryList = () => {
 
                                                            <select
                                                                 className="form-select form-select-sm"
-                                                                name = {'derection'}
-                                                                value = {input.derection}
+                                                                name = {'direction'}
+                                                                value = {input.direction}
                                                                 onChange = {handleInput}
                                                                 >
-                                                                    <option value={'name'}>ASC</option>
-                                                                    <option value={'created_at'}>DESC</option>
+                                                                    <option value={'asc'}>ASC</option>
+                                                                    <option value={'desc'}>DESC</option>
                                                             </select>
                                                            
                                                         </label>

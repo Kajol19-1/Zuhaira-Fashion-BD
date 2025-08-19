@@ -8,15 +8,16 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryListResource;
 use App\Manager\ImageManager;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request )
     {
-      $categories = (new Category())-> getAllCategories() ;
+      $categories = (new Category())-> getAllCategories($request->all()) ;
       return CategoryListResource::collection($categories);
     }
 
