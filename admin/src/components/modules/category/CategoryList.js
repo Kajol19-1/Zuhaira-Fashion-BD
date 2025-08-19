@@ -8,6 +8,7 @@ import Pagination from "react-js-pagination";
 import { Link, useNavigate } from "react-router-dom";
 import CategoryDetailsModal from "../../partials/modals/CategoryDetailsModal";
 import Swal from "sweetalert2";
+import Loader from "../../partials/miniComponent/Loader";
 
 
 const CategoryList = () => {
@@ -19,7 +20,7 @@ const CategoryList = () => {
        search : '',
 
     })
-    const [isLLoading,setsLoading] = useState(false)
+    const [isLoading,setIsLoading] = useState(false)
     const [category,setCategory] = useState([])
 
     const [itemsCountPerPage, setItemsCountPerPage] = useState(0)
@@ -40,12 +41,14 @@ const CategoryList = () => {
     
     
     const getCategories = (pageNumber = 1) => {
+        setIsLoading(true)
         axios.get(`${Constants.BASE_URL}/category?page=${pageNumber}&search=${input.search}&order_by=${input.order_by}&per_page=${input.per_page}&direction=${input.direction}`).then(res=>{
            setCategories(res.data.data)
            setItemsCountPerPage(res.data.meta.per_page)
            setStartFrom(res.data.meta.from)
            setTotalItemsCount(res.data.meta.total)
            setActivePage(res.data.meta.current_page)
+           setIsLoading(false)
         })
     }
 
@@ -110,6 +113,7 @@ const CategoryList = () => {
                                             />
                                     </div>
                                         <div className="card-body">
+    
                                             <div className="search-area mb-4">
                                                 <div className="row">
                                                     <div className="col-md-3">
@@ -190,7 +194,8 @@ const CategoryList = () => {
                                                         </div>
                                                 </div>
                                             </div>
-                                        <div className="table-responsive">
+                                            {isLoading ? <Loader/> :
+                                               <div className="table-responsive soft-landing">
                                                 <table className={'my-table table table-hover table-striped table-bordered'}>
                                                    <thead>
                                                         <tr>
@@ -251,6 +256,8 @@ const CategoryList = () => {
                                                              category={category}
                                                             />
                                             </div>
+                                            }
+                                     
                                                             <div className="card-footer">
                                                                 <nav className={'pagination-sm'}>
                                                                 <   Pagination

@@ -100,3 +100,18 @@ my-table{
     cursor: pointer;
 }
 
+.loader {
+  width: 100%;
+  height: 350px;
+  position: relative;
+
+  img {
+    position: absolute;
+    @include center;
+  }
+}
+
+.soft-landing{
+    @include transition;
+}
+
