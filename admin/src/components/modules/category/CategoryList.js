@@ -7,6 +7,8 @@ import CategoryPhotoModal from "../../partials/modals/CategoryPhotoModal";
 import Pagination from "react-js-pagination";
 import { Link, useNavigate } from "react-router-dom";
 import CategoryDetailsModal from "../../partials/modals/CategoryDetailsModal";
+import Swal from "sweetalert2";
+
 
 const CategoryList = () => {
 
@@ -55,6 +57,38 @@ const CategoryList = () => {
             setCategory(category) 
             setModalShow(true)
         }
+
+        const handleCategoryDelete = (id) => {
+
+            Swal.fire({
+                    title: "Are you sure?",
+                    text: "Category will be deleted",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Delete it!"
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                      axios.delete(`${Constants.BASE_URL}/category/${id}`).then(res=>{
+                        getCategories()
+
+                          Swal.fire({
+                                        position: 'top-end',
+                                        icon: res.data.cls,
+                                        title: res.data.msg,
+                                        showConfirmButton: false,
+                                        toast: true,
+                                        timer: 1500
+                                    });
+
+                         })
+                    }
+                });
+
+         
+        }
+
     useEffect( () => {
         getCategories()
 
@@ -195,7 +229,7 @@ const CategoryList = () => {
                                                             <td>
                                                                 <button onClick={()=>handleDetailsModal(category)} className={'btn btn-sm btn-info my-1'}><i className="fa-solid fa-eye" /></button>
                                                                 <Link to={'/'}><button className={'btn btn-sm btn-warning my-1 mx-1'}><i className="fa-solid fa-edit" /></button></Link>
-                                                                <button className={'btn btn-sm btn-danger my-1'}><i className="fa-solid fa-trash" /></button>
+                                                                <button onClick={()=>handleCategoryDelete(category.id)} className={'btn btn-sm btn-danger my-1'}><i className="fa-solid fa-trash" /></button>
                                                             </td>
                                                         </tr>
                                                         ))}

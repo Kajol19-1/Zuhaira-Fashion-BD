@@ -69,8 +69,14 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    final public function destroy(Category $category)
     {
-        //
+        if(!empty($category->photo)){
+           ImageManager::deletePhoto(Category::IMAGE_UPLOAD_PATH, $category->photo);
+           ImageManager::deletePhoto(Category::THUMB_IMAGE_UPLOAD_PATH, $category->photo);
+        }
+        $category->delete();
+         return response()->json(['msg'=>'Category deleted Successfully', 'cls'=>'warning']);
+
     }
 }

@@ -11,23 +11,23 @@ const Nav = () => {
 
     const handlelogout = () => {
         Swal.fire({
-  title: "Are you sure?",
-  text: "You will be logged out!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, Logout!"
-}).then((result) => {
-  if (result.isConfirmed) {
-   axios.post(`${Constants.BASE_URL}/logout`).then(res=>{
-                GlobalFunction.logOut()
-                window.location.reload()
-            }).catch(errors =>{
-                 GlobalFunction.logOut()
-            })
-  }
-});
+                    title: "Are you sure?",
+                    text: "You will be logged out!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Logout!"
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                    axios.post(`${Constants.BASE_URL}/logout`).then(res=>{
+                                    GlobalFunction.logOut()
+                                    window.location.reload()
+                                }).catch(errors =>{
+                                    GlobalFunction.logOut()
+                                })
+                    }
+                });
     }
 
     const handleSidebar =() => {
