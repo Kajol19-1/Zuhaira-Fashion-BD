@@ -4,20 +4,44 @@ import CardHeader from "../../partials/miniComponent/CardHeader";
 import Constants from "../../../Contants";
 import axios from "axios";
 import CategoryPhotoModal from "../../partials/modals/CategoryPhotoModal";
+import Pagination from "react-js-pagination";
 
 
 const CategoryList = () => {
 
-    const [modalShow, setModalShow] = React.useState(false)
+    const [input,setInput] = useState({
+       order_by : 'serial',
+       per_page : 10,
+       direction :'asc',
+       search : '',
 
+    })
+    const [isLLoading,setsLoading] = useState(false)
+    
+    const [itemsCountPerPage, setItemsCountPerPage] = useState(0)
+    const [totalItemsCount, setTotalItemsCount] = useState(1)
+    const [startFrom, setStartFrom] = useState(1)
+    const [activePage, setActivePage] = useState(1)
+
+
+    const [modalShow, setModalShow] = React.useState(false)
     const [categories, setCategories] = useState([])
     const [modalPhoto, setModalPhoto] = useState('')
 
+
+      const handleInput = (e) => {
+         setInput(prevState =>({...prevState, [e.target.name]: e.target.value}))
+      }
+
     
     
-    const getCategories = () => {
-        axios.get(`${Constants.BASE_URL}/category`).then(res=>{
+    const getCategories = (pageNumber = 1) => {
+        axios.get(`${Constants.BASE_URL}/category?page=${pageNumber}&search=${input.search}&order_by=${input.order_by}&per_page=${input.per_page}&direction=${input.direction}`).then(res=>{
            setCategories(res.data.data)
+           setItemsCountPerPage(res.data.meta.per_page)
+           setStartFrom(res.data.meta.from)
+           setTotalItemsCount(res.data.meta.total)
+           setActivePage(res.data.meta.current_page)
         })
     }
 
@@ -35,9 +59,9 @@ const CategoryList = () => {
        
         <>
         <BreadCrumb title = {'Category List'}/>
-                        <div class="row">
+                        <div className="row">
                             <div className="col-md-12">
-                                <div className="card">
+                                <div className="card mb-4">
                                     <div className="card-header">
                                          <CardHeader 
                                             title={'Category List'}
@@ -47,7 +71,87 @@ const CategoryList = () => {
                                             />
                                     </div>
                                         <div className="card-body">
-                                            <div className="table-responsive">
+                                            <div className="search-area mb-4">
+                                                <div className="row">
+                                                    <div className="col-md-3">
+                                                        <label className={'w-100 '}>
+                                                           <p>Search</p>
+
+                                                           <input
+                                                                className="form-control form-control-sm"
+                                                                type={'search'}
+                                                                name = {'search'}
+                                                                value = {input.search}
+                                                                onChange = {handleInput}
+                                                                placeholder = {'Search.....'}
+                                                            />
+                                                        </label>
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <label className={'w-100'} >
+                                                           <p>Order By</p>
+
+                                                           <select
+                                                                className="form-select form-select-sm"
+                                                                name = {'order_by'}
+                                                                value = {input.order_by}
+                                                                onChange = {handleInput}
+                                                                >
+                                                                    <option value={'name'}>Name</option>
+                                                                    <option value={'created_at'}>Created at</option>
+                                                                    <option value={'updated_at'}>Updated at</option>
+                                                                    <option value={'serial'}>Serial</option>
+                                                                    <option value={'status'}>Status</option>
+                                                            </select>
+                                                           
+                                                        </label>
+                                                    </div>
+                                                     <div className="col-md-2">
+                                                        <label className={'w-100'}>
+                                                           <p>Order Direction</p>
+
+                                                           <select
+                                                                className="form-select form-select-sm"
+                                                                name = {'derection'}
+                                                                value = {input.derection}
+                                                                onChange = {handleInput}
+                                                                >
+                                                                    <option value={'name'}>ASC</option>
+                                                                    <option value={'created_at'}>DESC</option>
+                                                            </select>
+                                                           
+                                                        </label>
+                                                    </div>
+
+
+
+                                                       <div className="col-md-2">
+                                                        <label className={'w-100'}>
+                                                           <p>Per Page</p>
+                                                           <select
+                                                                className="form-select form-select-sm"
+                                                                name = {'per_page'}
+                                                                value = {input.per_page}
+                                                                onChange = {handleInput}
+                                                                >
+                                                                    <option value={'10'}>10</option>
+                                                                    <option value={'25'}>25</option>
+                                                                    <option value={'50'}>50</option>
+                                                                    <option value={'100'}>100</option>
+                                                            </select>  
+                                                        </label>
+                                                    </div>
+
+
+                                                        <div className="col-md-2">
+                                                            <div className="d-grid mt-4">
+                                                                <button className={'btn btn-sm theme-button'} onClick={()=>getCategories(1)}>
+                                                                    <i className="fa-solid fa-magnifying-glass"/> Search</button>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        <div className="table-responsive">
                                                 <table className={'my-table table table-hover table-striped table-bordered'}>
                                                    <thead>
                                                         <tr>
@@ -62,8 +166,8 @@ const CategoryList = () => {
                                                     </thead> 
                                                      <tbody>
                                                         {categories.map((category, index )=>(
-                                                        <tr>
-                                                            <td>{++index}</td>
+                                                        <tr key={index}>
+                                                            <td>{startFrom + index}</td>
                                                             <td>
                                                                 <p className={'text-theme'}>Name: {category.name}</p>
                                                                 <p className={'text-info'}>Slug: {category.slug}</p>
@@ -97,6 +201,23 @@ const CategoryList = () => {
                                                              photo={modalPhoto}
                                                             />
                                             </div>
+                                                            <div className="card-footer">
+                                                                <nav className={'pagination-sm'}>
+                                                                <   Pagination
+                                                                    activePage={activePage}
+                                                                    itemsCountPerPage={itemsCountPerPage}
+                                                                    totalItemsCount={totalItemsCount}
+                                                                    pageRangeDisplayed={5}
+                                                                    onChange={getCategories}
+                                                                    nextPageText={'Next'}
+                                                                    firstPageText={'First'}
+                                                                    prevPageText={'Previous'}
+                                                                    lastPageText={'Last'}
+                                                                    itemClass={'page-item'}
+                                                                    linkClass={'page-link'}
+                                                                />
+                                                                </nav>
+                                                            </div>
                                         </div>
                                      </div>            
                             </div>

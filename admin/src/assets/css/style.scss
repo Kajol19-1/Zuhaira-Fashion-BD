@@ -22,3 +22,15 @@
 
   }
 }
+.search-area{
+  label{
+    font-size: 14px;
+    color: $theme-color;
+    p{
+      margin-bottom: 5px;
+    }
+  }
+}
+.red-select {
+  accent-color: red;    // changes the dropdown arrow and highlight color in supported browsers
+}
