@@ -9,9 +9,9 @@ class UpdateCategoryRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    final public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -19,10 +19,14 @@ class UpdateCategoryRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    final public function rules(): array
     {
         return [
-            //
+            'name'=>'required|min:3|max:50|string',
+            'slug'=>'required|min:3|max:50|string|unique:categories,slug,'.$this->id,
+            'description'=>'max:200|string',
+            'serial'=>'required|numeric',
+            'status'=>'required|numeric',
         ];
     }
 }

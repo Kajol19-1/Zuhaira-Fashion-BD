@@ -235,7 +235,7 @@ const CategoryList = () => {
                                                             </td>
                                                             <td>
                                                                 <button onClick={()=>handleDetailsModal(category)} className={'btn btn-sm btn-info my-1'}><i className="fa-solid fa-eye" /></button>
-                                                                <Link to={'/'}><button className={'btn btn-sm btn-warning my-1 mx-1'}><i className="fa-solid fa-edit" /></button></Link>
+                                                                <Link to={`/category/edit/${category.id}`}><button className={'btn btn-sm btn-warning my-1 mx-1'}><i className="fa-solid fa-edit" /></button></Link>
                                                                 <button onClick={()=>handleCategoryDelete(category.id)} className={'btn btn-sm btn-danger my-1'}><i className="fa-solid fa-trash" /></button>
                                                             </td>
                                                         </tr>
