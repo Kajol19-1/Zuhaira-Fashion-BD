@@ -114,4 +114,13 @@ my-table{
 .soft-landing{
     @include transition;
 }
+.no-data-found-container{
+    width: 100%;
+    min-height: 50px ;
+    .No-data-found{
+    position:absolute;
+}
+}
+
+
 

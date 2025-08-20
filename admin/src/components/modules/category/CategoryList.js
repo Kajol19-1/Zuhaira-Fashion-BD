@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CategoryDetailsModal from "../../partials/modals/CategoryDetailsModal";
 import Swal from "sweetalert2";
 import Loader from "../../partials/miniComponent/Loader";
+import NoDataFound from "../../partials/miniComponent/NoDataFound";
 
 
 const CategoryList = () => {
@@ -30,6 +31,7 @@ const CategoryList = () => {
 
 
     const [modalShow, setModalShow] = React.useState(false)
+    const [modalPhotoShow, setModalPhotoShow] = React.useState(false)
     const [categories, setCategories] = useState([])
     const [modalPhoto, setModalPhoto] = useState('')
 
@@ -54,7 +56,7 @@ const CategoryList = () => {
 
     const handlePhotoModal = (photo) => {
         setModalPhoto(photo)
-        setModalShow(true)
+        setModalPhotoShow(true)
     }
     const handleDetailsModal = (category) => {
             setCategory(category) 
@@ -209,7 +211,7 @@ const CategoryList = () => {
                                                         </tr>
                                                     </thead> 
                                                      <tbody>
-                                                        {categories.map((category, index )=>(
+                                                        {Object.keys(categories).length > 0 ? categories.map((category, index )=>(
                                                         <tr key={index}>
                                                             <td>{startFrom + index}</td>
                                                             <td>
@@ -237,13 +239,13 @@ const CategoryList = () => {
                                                                 <button onClick={()=>handleCategoryDelete(category.id)} className={'btn btn-sm btn-danger my-1'}><i className="fa-solid fa-trash" /></button>
                                                             </td>
                                                         </tr>
-                                                        ))}
+                                                        )): <NoDataFound/> }
                                                         
                                                     </tbody> 
                                                 </table>
                                                             <CategoryPhotoModal
-                                                             show={modalShow}
-                                                             onHide={() => setModalShow(false)}
+                                                             show={modalPhotoShow}
+                                                             onHide={() => setModalPhotoShow(false)}
                                                              title={'Category Photo'}
                                                              size={''}
                                                              photo={modalPhoto}
