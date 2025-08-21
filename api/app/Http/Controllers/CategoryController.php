@@ -80,6 +80,13 @@ class CategoryController extends Controller
 
     }
 
+    final public function get_category_list()
+    {
+        $categories = (new Category())->getCategoryIdAndName();
+        return response()->json($categories);
+    }
+
+
     private function processImageUpload(string $file, string $name, string|null $existing_photo = null){
     
             $width = 800;

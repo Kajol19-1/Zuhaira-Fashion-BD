@@ -6,6 +6,7 @@ import Login from "../modules/auth/Login";
 import CategoryList from "../modules/category/CategoryList";
 import AddCategory from "../modules/category/AddCategory";
 import CategoryEdit from "../modules/category/CategoryEdit";
+import SubCategoryAdd from "../modules/subCategory/SubCategoryAdd";
 
 const PublicRouter = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const PublicRouter = createBrowserRouter([
              {
                 path: '/category/edit/:id',
                 element : < CategoryEdit/>
+            },
+             {
+                path: '/sub-category/create',
+                element : < SubCategoryAdd/>
             }
         ]
     }

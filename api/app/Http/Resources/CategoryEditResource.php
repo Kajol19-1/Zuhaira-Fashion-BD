@@ -17,12 +17,12 @@ class CategoryEditResource extends JsonResource
    final public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'description' => $this->description,
-            'serial' => $this->serial,
-            'status' => $this->status,
+            'id'            => $this->id,
+            'name'          => $this->name,
+            'slug'          => $this->slug,
+            'description'   => $this->description,
+            'serial'        => $this->serial,
+            'status'        => $this->status,
             'photo_preview' => ImageManager::prepareImageUrl(Category::THUMB_IMAGE_UPLOAD_PATH, $this->photo),
 
         ];

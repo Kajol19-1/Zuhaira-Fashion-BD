@@ -1,27 +1,26 @@
 import React from "react";
 import BreadCrumb from "../../partials/BreadCrumbs";
-import CardHeader from "../../partials/miniComponent/CardHeader";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Constants from "../../../Contants";
 import Swal from "sweetalert2";
+import CardHeader from "../../partials/miniComponent/CardHeader";
 
+const SubCategoryAdd = () => {
 
-const CategoryEdit = () => {
+       const navigate = useNavigate();
+       const [input,setInput] = useState({ status: 1 })
+       const [errors, setErrors] = useState([])
+       const [isLoading, setIsLoading] = useState(false)
+       const [categories, setCategories] = useState([])
 
-    const params = useParams()
-    const navigate = useNavigate();
-    const [input,setInput] = useState({ status: 1 })
-    const [errors, setErrors] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [category, setCategory] = useState([])
+       const getCategories = () => {
+        axios.get(`${Constants.BASE_URL}/get-category-list`).then(res=>{
+            setCategories(res.data)
+        })
+       }
 
-    const getCategory = () => {
-         axios.get(`${Constants.BASE_URL}/category/${params.id}`).then(res=>{
-            setInput(res.data.data)
-         })
-    }
 
           const handleInput = (e) => {
             if(e.target.name == 'name'){
@@ -42,10 +41,10 @@ const CategoryEdit = () => {
                 reader.readAsDataURL(file)
             }
        
-    const handleCategoryUpdate = () => {
+          const handleSubCategoryCreate = () => {
             setIsLoading(true)
 
-          axios.put(`${Constants.BASE_URL}/category/${params.id}`, input).then(res=>{
+          axios.post(`${Constants.BASE_URL}/sub-category`, input).then(res=>{
                 setIsLoading(false)
                Swal.fire({
                 position: 'top-end',
@@ -56,7 +55,7 @@ const CategoryEdit = () => {
                 timer: 1500
                 });
 
-                navigate('/category')
+                navigate('/sub-category')
 
           }).catch(errors =>{
                 setIsLoading(false)
@@ -65,29 +64,51 @@ const CategoryEdit = () => {
             })
 
       }
+      useEffect(()=>{
+        return () => {
+            getCategories()
+        };
+      }, [] );
 
-      useEffect(() =>{
-            getCategory()
-      },  [])
-    
     return (
-     <>
-        <BreadCrumb title = {'Add Category'}/>
+        <>
+        <BreadCrumb title = {'Add Sub Category'}/>
                         <div class="row">
                             <div className="col-md-12">
                                 <div className="card">
                                         <div className="card-header">
                                             <CardHeader 
-                                            title={'Add Category'}
-                                            link={'/category'} 
+                                            title={'Add Sub Category'}
+                                            link={'/sub-category'} 
                                             icon={'fa-list'}
                                             button_text={'List'}
                                             />
                                         </div>
                                 <div className="card-body">
-                                {/* name,slug, description, serial, photo, status */}
 
                                     <div className="row">
+                                        <div className="col-md-6">
+                                            <label className={'w-100 mt-4'}>
+                                                <p>Select Category</p>
+                                                <select
+                                                    className={errors.category_id !=undefined ? 'form-control mt-2 is-invalid' : 'form-control mt-2'}
+                                                    name = {'category_id'}
+                                                    value = {input.category_id}
+                                                    onChange = {handleInput}
+                                                    placeholder = {'Select Category Name'}
+                                                >
+                                                    <option value={''}>Select Category</option>
+                                                    {categories.map((category, index)=>(
+                                                        <option key={index} value={category.id}>{category.name}</option>
+                                                    ))}
+                                                </select>
+                                                <p className={'login-error-msg'}>
+                                                    <small>{errors.category_id != undefined ? errors.category_id[0] :null }</small>
+                                                </p>
+                                            </label>
+                                        </div>
+
+
                                         <div className="col-md-6">
                                             <label className={'w-100 mt-4'}>
                                                 <p>Name</p>
@@ -97,7 +118,7 @@ const CategoryEdit = () => {
                                                 name = {'name'}
                                                 value = {input.name}
                                                 onChange = {handleInput}
-                                                placeholder = {'Enter category Name'}
+                                                placeholder = {'Enter sub-category Name'}
                                                 />
                                                  <p className={'login-error-msg'}><small>{errors.name != undefined ? errors.name[0] :null}</small></p>
                                             </label>
@@ -111,7 +132,7 @@ const CategoryEdit = () => {
                                                 name = {'slug'}
                                                 value = {input.slug}
                                                 onChange = {handleInput}
-                                                placeholder = {'Enter category slug'}
+                                                placeholder = {'Enter sub-category slug'}
                                                 />
                                                 <p className={'login-error-msg'}><small>{errors.slug != undefined ? errors.slug[0] :null}</small></p>
                                             </label>
@@ -125,7 +146,7 @@ const CategoryEdit = () => {
                                                 name = {'serial'}
                                                 value = {input.serial}
                                                 onChange = {handleInput}
-                                                placeholder = {'Enter category serial'}
+                                                placeholder = {'Enter sub-category serial'}
                                                 />
                                                 <p className={'login-error-msg'}><small>{errors.serial != undefined ? errors.serial[0] :null}</small></p>
                                             </label>
@@ -155,7 +176,7 @@ const CategoryEdit = () => {
                                                 name = {'description'}
                                                 value = {input.description}
                                                 onChange = {handleInput}
-                                                placeholder = {'Enter category description'}
+                                                placeholder = {'Enter sub-category description'}
                                                 />
                                                 <p className={'login-error-msg'}><small>{errors.description != undefined ? errors.description[0] :null}</small></p>
                                             </label>
@@ -168,17 +189,16 @@ const CategoryEdit = () => {
                                                 type={'file'}
                                                 name = {'photo'}
                                                 onChange = {handlePhoto}
-                                                placeholder = {'Enter category description'}
+                                                placeholder = {'Enter sub-category description'}
                                                 />
-                                                <p className={'login-error-msg'}>
-                                                <small>{errors.photo != undefined ? errors.photo[0] :null}</small></p>
+                                                <p className={'login-error-msg'}><small>{errors.photo != undefined ? errors.photo[0] :null}</small></p>
                                             </label>
-                                            {input.photo != undefined || input.photo_preview != undefined?
+                                            {input.photo != undefined ?
                                             
                                             <div className="row">
                                                 <div className="col-4">
                                                     <div className="photo-preview mt-3">
-                                                    <img  alt = {'Photo preview'} src={input.photo == undefined ? input.photo_preview  : input.photo} className={'img-thumbnail aspect-one'}/>
+                                                    <img  alt = {'Photo preview'}src={input.photo} className={'img-thumbnail aspect-one'}/>
                                                     </div>
                                                 </div>
                                             </div>:null
@@ -191,7 +211,7 @@ const CategoryEdit = () => {
                                                 <div className="row justify-content-center">
                                                     <div className="col-md-4">
                                                         <div className="d-grid mt-4">
-                                                            <button className={'btn theme-button'} onClick={handleCategoryUpdate} dangerouslySetInnerHTML={{__html: isLoading ? ' <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...' : 'Update Category'}}/>
+                                                            <button className={'btn theme-button'} onClick={handleSubCategoryCreate} dangerouslySetInnerHTML={{__html: isLoading ? ' <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...' : 'Add Sub Category'}}/>
                                                         </div>
 
                                                     </div>
@@ -211,4 +231,5 @@ const CategoryEdit = () => {
         </>
     );
 };
-export default CategoryEdit;
+
+export default SubCategoryAdd;

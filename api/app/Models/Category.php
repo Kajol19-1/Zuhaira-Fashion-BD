@@ -7,16 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+  use HasFactory;
   public const IMAGE_UPLOAD_PATH = 'images/uploads/category/';
   public const THUMB_IMAGE_UPLOAD_PATH = 'images/uploads/category_thumb/';
-    use HasFactory;
+  
 
     protected $fillable = ['name', 'slug','serial', 'status','description', 'photo', 'user_id'];
 
-  Final public function storeCategory(array $input)
+  final public function storeCategory(array $input)
     {
       return  self::query()->create($input);
     }
+
+
     final public function getAllCategories(array $input)
     {
 
@@ -29,6 +32,11 @@ class Category extends Model
           $query->orderBy($input['order_by'], $input['direction'] ?? 'asc');
         }
         return $query->with('user:id,name')->paginate($per_page);
+    }
+
+    final public function getCategoryIdAndName()
+    {
+      return self::query()->select('id', 'name')->get();
     }
     public function user()
     {
