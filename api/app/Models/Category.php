@@ -38,7 +38,7 @@ class Category extends Model
     {
       return self::query()->select('id', 'name')->get();
     }
-    public function user()
+   final public function user()
     {
       return $this->belongsTo(User::class);
     }

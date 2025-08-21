@@ -7,6 +7,7 @@ import CategoryList from "../modules/category/CategoryList";
 import AddCategory from "../modules/category/AddCategory";
 import CategoryEdit from "../modules/category/CategoryEdit";
 import SubCategoryAdd from "../modules/subCategory/SubCategoryAdd";
+import SubCategoryList from "../modules/subCategory/SubCategoryList";
 
 const PublicRouter = createBrowserRouter([
     {
@@ -35,6 +36,11 @@ const PublicRouter = createBrowserRouter([
              {
                 path: '/sub-category/create',
                 element : < SubCategoryAdd/>
+            },
+             
+            {
+                path: '/sub-category',
+                element : < SubCategoryList/>
             }
         ]
     }

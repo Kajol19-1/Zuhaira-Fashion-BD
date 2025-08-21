@@ -17,4 +17,33 @@ class SubCategory extends Model
     {
       return  self::query()->create($input);
     }
+    final public function getAllSubCategories(array $input)
+    {
+
+        $per_page = $input['per_page'] ?? 10;
+
+        $query =self::query();
+
+        if (!empty($input['search']) ){
+
+          $query->where('name', 'like', '%'. $input['search'].'%');
+
+        }
+        if (!empty($input['order_by']) ){
+          $query->orderBy($input['order_by'], $input['direction'] ?? 'asc');
+        }
+        return $query->with(['user:id,name','category:id,name'])->paginate($per_page);
+    }
+
+
+     final public function user()
+    {
+      return $this->belongsTo(User::class);
+    }
+
+
+     final public function category()
+    {
+      return $this->belongsTo(Category::class);
+    }
 }

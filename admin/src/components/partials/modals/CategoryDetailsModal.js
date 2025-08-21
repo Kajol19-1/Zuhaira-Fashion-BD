@@ -31,6 +31,13 @@ const CategoryPhotoModal = (props) => {
                                     <th>Slug</th>
                                     <td>{props.category.slug}</td>
                                 </tr>
+                                {props.category.category_name != undefined ?
+                                <tr>
+                                    <th>Category</th>
+                                    <td>{props.category.category_name}</td>
+                                </tr>: null
+                                }
+                                  
                                   <tr>
                                     <th>Description</th>
                                     <td>{props.category.description}</td>

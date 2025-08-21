@@ -7,15 +7,18 @@ use App\Http\Requests\StoreSubCategoryRequest;
 use App\Http\Requests\UpdateSubCategoryRequest;
 use Illuminate\Support\Str;
 use App\Manager\ImageManager;
+use App\Http\Resources\SubCategoryListResource;
+use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    final public function index(Request $request)
     {
-        //
+        $categories = (new SubCategory())-> getAllSubCategories($request->all()) ;
+        return SubCategoryListResource::collection($categories);
     }
 
     
@@ -67,7 +70,12 @@ class SubCategoryController extends Controller
      */
     public function destroy(SubCategory $subCategory)
     {
-        //
+        if(!empty($subCategory->photo)){
+           ImageManager::deletePhoto(SubCategory::IMAGE_UPLOAD_PATH, $subCategory->photo);
+           ImageManager::deletePhoto(SubCategory::THUMB_IMAGE_UPLOAD_PATH, $subCategory->photo);
+        }
+        $subCategory->delete();
+         return response()->json(['msg'=>'Sub category deleted Successfully', 'cls'=>'warning']);
     }
 
      private function processImageUpload(string $file, string $name, string|null $existing_photo = null){
