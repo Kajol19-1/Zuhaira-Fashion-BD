@@ -9,6 +9,9 @@ import CategoryEdit from "../modules/category/CategoryEdit";
 import SubCategoryAdd from "../modules/subCategory/SubCategoryAdd";
 import SubCategoryList from "../modules/subCategory/SubCategoryList";
 import SubCategoryEdit from "../modules/subCategory/SubCategoryEdit";
+import BrandAdd from "../modules/brand/BrandAdd";
+import BarndList from "../modules/brand/BrandList";
+import BrandEdit from "../modules/brand/BrandEdit";
 
 const PublicRouter = createBrowserRouter([
     {
@@ -47,6 +50,23 @@ const PublicRouter = createBrowserRouter([
             {
                 path: '/sub-category/edit/:id',
                 element : < SubCategoryEdit/>
+            }
+            ,
+             
+            {
+                path: '/brand/create',
+                element : < BrandAdd/>
+            } ,
+             
+            {
+                path: '/brand',
+                element : < BarndList/>
+            }
+            ,
+             
+            {
+                path: '/brand/edit/:id',
+                element : < BrandEdit/>
             }
         ]
     }
