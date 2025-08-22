@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateSubCategoryRequest;
 use Illuminate\Support\Str;
 use App\Manager\ImageManager;
 use App\Http\Resources\SubCategoryListResource;
+use App\Http\Resources\SubCategoryEditResource;
 use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
@@ -46,7 +47,7 @@ class SubCategoryController extends Controller
      */
     public function show(SubCategory $subCategory)
     {
-        //
+          return new SubCategoryEditResource($subCategory);
     }
 
     /**
@@ -60,9 +61,17 @@ class SubCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSubCategoryRequest $request, SubCategory $subCategory)
+    final public function update(UpdateSubCategoryRequest $request, SubCategory $subCategory)
     {
-        //
+        $sub_category_data = $request->except('photo');
+        $sub_category_data['slug']=Str::slug($request->input('slug'));
+        if($request->has('photo')){
+
+             $sub_category_data['photo']= $this->processImageUpload( $request->input('photo').$sub_category_data['slug'], $subCategory->photo);
+
+        }
+       $subCategory->update($sub_category_data);
+        return response()->json(['msg'=>'Sub Category updated Successfully', 'cls'=>'success']);
     }
 
     /**

@@ -8,6 +8,7 @@ import CategoryList from "../modules/category/CategoryList";
 import CategoryEdit from "../modules/category/CategoryEdit";
 import SubCategoryAdd from "../modules/subCategory/SubCategoryAdd";
 import SubCategoryList from "../modules/subCategory/SubCategoryList";
+import SubCategoryEdit from "../modules/subCategory/SubCategoryEdit";
 
 const ProjectRouter = createBrowserRouter([
     {
@@ -40,6 +41,11 @@ const ProjectRouter = createBrowserRouter([
             {
                 path: '/sub-category',
                 element : < SubCategoryList/>
+            },
+             
+            {
+                path: '/sub-category/edit/:id',
+                element : < SubCategoryEdit/>
             },
 
             {
