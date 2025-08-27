@@ -12,6 +12,7 @@ import SubCategoryEdit from "../modules/subCategory/SubCategoryEdit";
 import BrandAdd from "../modules/brand/BrandAdd";
 import BarndList from "../modules/brand/BrandList";
 import BrandEdit from "../modules/brand/BrandEdit";
+import SupplierAdd from "../modules/suppliers/SupplierAdd";
 
 const ProjectRouter = createBrowserRouter([
     {
@@ -63,6 +64,11 @@ const ProjectRouter = createBrowserRouter([
             {
                 path: '/brand/edit/:id',
                 element : < BrandEdit/>
+            },
+           
+            {
+                path: '/supplier/create',
+                element : < SupplierAdd/>
             },
 
             {
