@@ -11,6 +11,7 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
@@ -19,6 +20,7 @@ class SupplierController extends Controller
      */
    final public function index(Request $request)
     {
+    
         $suppliers = (new Supplier())->getSupplierList($request->all());
         return SupplierListResource::collection($suppliers);
     }
@@ -43,9 +45,29 @@ class SupplierController extends Controller
                 Supplier::LOGO_THUMB_HEIGHT
             );
         }
-        $supplier = Supplier::create($supplier);
-        $supplier->address()->create($address);
-         return response()->json(['msg'=>'Supplier added Successfully', 'cls'=>'success']);
+
+        // When data insert in multiple table then we use try and catch
+
+        try{
+            DB::beginTransaction();
+             $supplier = Supplier::create($supplier);
+             $supplier->address()->create($address);
+             DB::commit();
+              return response()->json(['msg'=>'Supplier added Successfully', 'cls'=>'success']);
+
+        }catch (\Throwable $e){
+            if(isset($supplier['logo']))
+            {
+                 ImageManager::deletePhoto( Supplier::IMAGE_UPLOAD_PATH , $supplier['logo']);
+                 ImageManager::deletePhoto( Supplier::THUMB_IMAGE_UPLOAD_PATH , $supplier['logo']);
+            }
+           
+            info('SUPPLIER_STORE_FAILED', ['supplier' => $supplier, 'address' => $address, 'exception' => $e]);
+            DB::rollBack();
+              return response()->json(['msg'=>'Something is goning wrong', 'cls'=>'warning', 'flag'=>'true']);
+        }
+       
+        
     }
 
     /**
@@ -75,9 +97,16 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Supplier $supplier)
+   final public function destroy(Supplier $supplier)
     {
-        //
+         if(!empty($supplier->logo))
+            {
+                 ImageManager::deletePhoto( Supplier::IMAGE_UPLOAD_PATH , $supplier['logo']);
+                 ImageManager::deletePhoto( Supplier::THUMB_IMAGE_UPLOAD_PATH , $supplier['logo']);
+            }
+        (new Address())->deleteAddressBySupplierId($supplier);
+        $supplier->delete();
+        return response()->json(['msg'=>'Supplier deleted Successfully', 'cls'=>'warning']);
     }
 
     

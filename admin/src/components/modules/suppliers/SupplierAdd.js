@@ -78,8 +78,10 @@ const SupplierAdd = () => {
           toast: true,
           timer: 1500,
         });
-
-        navigate("/supplier");
+        if(res.data.flag == undefined){
+          navigate("/supplier");
+        }
+        
       })
       .catch((errors) => {
         setIsLoading(false);

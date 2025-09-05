@@ -10,6 +10,7 @@ import CategoryDetailsModal from "../../partials/modals/CategoryDetailsModal";
 import Swal from "sweetalert2";
 import Loader from "../../partials/miniComponent/Loader";
 import NoDataFound from "../../partials/miniComponent/NoDataFound";
+import SupplierDetails from "./partials/SupplierDetails";
 
 const SupplierList = () =>{
 
@@ -215,7 +216,7 @@ const SupplierList = () =>{
                                                             <td>{startFrom + index}</td>
                                                             <td>{supplier.name}</td>
                                                             <td>
-                                                                <p className={'text-success'}> Email: {supplier.name}</p>
+                                                                <p className={'text-success'}> Email: {supplier.email}</p>
                                                                 <p className={'text-info'}> Phone: {supplier.phone}</p>
                                                             </td>
                                                             <td>{supplier.status} </td>
@@ -247,12 +248,12 @@ const SupplierList = () =>{
                                                              size={''}
                                                              photo={modalPhoto}
                                                             />
-                                                            <CategoryDetailsModal
+                                                            <SupplierDetails
                                                              show={modalShow}
                                                              onHide={() => setModalShow(false)}
                                                              title={'Supplier Details'}
                                                              size={''}
-                                                             category={supplier}
+                                                             supplier={supplier}
                                                             />
                                             </div>
                                             }

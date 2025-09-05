@@ -25,6 +25,7 @@ class SupplierListResource extends JsonResource
             'created_by'    =>$this->user?->name,
             'status'        =>$this->status == Supplier::STATUS_ACTIVE ? Supplier::STATUS_ACTIVE_TEXT : Supplier::STATUS_INACTIVE_TEXT,
             'logo'          =>ImageManager::prepareImageUrl(Supplier::THUMB_IMAGE_UPLOAD_PATH, $this->logo),
+            'logo_full'     =>ImageManager::prepareImageUrl(Supplier::IMAGE_UPLOAD_PATH, $this->logo),
             'created_at'    =>$this->created_at->toDayDateTimeString(),
             'updated_at'    =>$this->created_at != $this->updated_at ? $this->updated_at->toDayDateTimeString():'Not updated yet',
             'address'       => new AddressListResource($this->address),
