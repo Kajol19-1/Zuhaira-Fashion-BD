@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use App\Http\Resources\SupplierEditResource;
 use App\Http\Resources\SupplierListResource;
 use App\Manager\ImageManager;
 use App\Models\Address;
@@ -73,17 +74,10 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Supplier $supplier)
+    final public function show(Supplier $supplier)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Supplier $supplier)
-    {
-        //
+        $supplier->load('address');
+        return new SupplierEditResource($supplier);
     }
 
     /**
@@ -91,7 +85,37 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
-        //
+       $supplier_data = (new Supplier())->prepareData($request->all(), auth());
+       $address_data = (new Address())->prepareData($request->all());
+        if($request->has ('logo')){
+            $name =Str::slug($supplier_data['name']. now());
+            $supplier_data['logo'] = ImageManager::processImageUpload(
+                $request->input('logo'),
+                $name,
+                Supplier::IMAGE_UPLOAD_PATH,
+                Supplier::LOGO_WIDTH,
+                Supplier::LOGO_HEIGHT,
+                Supplier::THUMB_IMAGE_UPLOAD_PATH,
+                Supplier::LOGO_THUMB_WIDTH,
+                Supplier::LOGO_THUMB_HEIGHT,
+                $supplier->logo
+            );
+        }
+
+        // When data insert in multiple table then we use try and catch
+
+        try{
+            DB::beginTransaction();
+             $supplier_data = $supplier->update($supplier_data);
+             $supplier->address()->update($address_data);
+             DB::commit();
+              return response()->json(['msg'=>'Supplier updated Successfully', 'cls'=>'success']);
+
+        }catch (\Throwable $e){
+            info('SUPPLIER_STORE_FAILED', ['supplier' => $supplier_data, 'address' => $address_data, 'exception' => $e]);
+            DB::rollBack();
+              return response()->json(['msg'=>'Something is goning wrong', 'cls'=>'warning', 'flag'=>'true']);
+        }
     }
 
     /**

@@ -44,7 +44,7 @@ class ImageManager{
         string $path_thumb = null,
         int $width_thumb =0,
         int $height_thumb =0,
-        string|null $existing_photo = null
+        string|null $existing_photo = ''
         )
         {
 

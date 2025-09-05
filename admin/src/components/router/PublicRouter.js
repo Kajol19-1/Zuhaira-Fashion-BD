@@ -14,6 +14,7 @@ import BarndList from "../modules/brand/BrandList";
 import BrandEdit from "../modules/brand/BrandEdit";
 import SupplierAdd from "../modules/suppliers/SupplierAdd";
 import SupplierList from "../modules/suppliers/SupplierList";
+import SupplierEdit from "../modules/suppliers/SupplierEdit";
 
 const PublicRouter = createBrowserRouter([
     {
@@ -80,6 +81,11 @@ const PublicRouter = createBrowserRouter([
             {
                 path: '/supplier',
                 element : < SupplierList/>
+            },
+
+             {
+                path: '/supplier/edit/:id',
+                element : < SupplierEdit/>
             }
         ]
     }
