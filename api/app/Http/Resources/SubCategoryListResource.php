@@ -28,7 +28,7 @@ class SubCategoryListResource extends JsonResource
              'photo_full'=>ImageManager::prepareImageUrl(SubCategory::IMAGE_UPLOAD_PATH, $this->photo),
              'created_by'=>$this->user?->name,
              'created_at'=>$this->created_at->toDayDateTimeString(),
-              'updated_at'=>$this->created_at != $this->updated_at ? $this->updated_at->toDayDateTimeString():'Not updated yet',
+             'updated_at'=>$this->created_at != $this->updated_at ? $this->updated_at->toDayDateTimeString():'Not updated yet',
 
         ];
     }

@@ -10,7 +10,7 @@ class Address extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['address', 'addressable_id', 'addressable_type', 'area_id', 'district_id', 'division_id', 'status', 'type'];
+    protected $fillable = ['address', 'addressable_id', 'addressable_type', 'area_id', 'district_id', 'division_id', 'status', 'type', 'landmark'];
 
     const STATUS_ACTIVE =1;
     const STATUS_INACTIVE =0;
@@ -26,6 +26,7 @@ class Address extends Model
         $address['area_id']         = $input['area_id'] ?? '';
         $address['district_id']     = $input['district_id'] ?? '';
         $address['division_id']     = $input['division_id'] ?? '';
+        $address['landmark']        = $input['landmark'] ?? '';
         $address['status']          = self::STATUS_ACTIVE;
         $address['type']            =  self::SUPPLIER_ADDRESS;
 
@@ -35,5 +36,20 @@ class Address extends Model
     final public function addressable()
     {
         return $this->morphTo();
+    }
+
+    final public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
+
+    final public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    final public function area()
+    {
+        return $this->belongsTo(Area::class);
     }
 }

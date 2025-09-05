@@ -13,6 +13,7 @@ import BrandAdd from "../modules/brand/BrandAdd";
 import BarndList from "../modules/brand/BrandList";
 import BrandEdit from "../modules/brand/BrandEdit";
 import SupplierAdd from "../modules/suppliers/SupplierAdd";
+import SupplierList from "../modules/suppliers/SupplierList";
 
 const ProjectRouter = createBrowserRouter([
     {
@@ -69,6 +70,10 @@ const ProjectRouter = createBrowserRouter([
             {
                 path: '/supplier/create',
                 element : < SupplierAdd/>
+            },
+            {
+                path: '/supplier',
+                element : < SupplierList/>
             },
 
             {

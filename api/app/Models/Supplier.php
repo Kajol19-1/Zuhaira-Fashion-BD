@@ -12,7 +12,9 @@ class Supplier extends Model
     protected $fillable = ['details', 'email', 'logo', 'name', 'phone', 'status', 'user_id'];
 
     public const STATUS_ACTIVE =1;
+     public const STATUS_ACTIVE_TEXT ='Active';
     public const STATUS_INACTIVE =0;
+     public const STATUS_INACTIVE_TEXT ='Inactive';
 
     public const LOGO_WIDTH = 800;
     public const LOGO_HEIGHT = 800;
@@ -37,5 +39,34 @@ class Supplier extends Model
     final public function address()
     {
         return $this->morphOne(Address::class, 'addressable');
+    }
+    
+    public function getSupplierList($input)
+    {
+        $per_page = $input['per_page'] ?? 10;
+
+        $query = self::query()->with(
+            'address', 
+            'address.division:id,name',
+            'address.district:id,name',
+            'address.area:id,name',
+            'user:id,name',
+
+        );
+         if (!empty($input['search']) ){
+          $query->where('name', 'like', '%'. $input['search'].'%')
+                ->orWhere('phone', 'like', '%'. $input['search'].'%')
+                ->orWhere('email', 'like', '%'. $input['search'].'%');
+        }
+         if (!empty($input['order_by']) ){
+          $query->orderBy($input['order_by'], $input['direction'] ?? 'asc');
+        }
+
+        return $query->paginate($per_page);
+    }
+
+   final public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

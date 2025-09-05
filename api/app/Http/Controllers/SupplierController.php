@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use App\Http\Resources\SupplierListResource;
 use App\Manager\ImageManager;
 use App\Models\Address;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -15,9 +17,10 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   final public function index(Request $request)
     {
-        //
+        $suppliers = (new Supplier())->getSupplierList($request->all());
+        return SupplierListResource::collection($suppliers);
     }
 
     /**
@@ -28,7 +31,7 @@ class SupplierController extends Controller
        $supplier = (new Supplier())->prepareData($request->all(), auth());
        $address = (new Address())->prepareData($request->all());
         if($request->has ('logo')){
-            $name =Str::slug($supplier['name']);
+            $name =Str::slug($supplier['name']. now());
             $supplier['logo'] = ImageManager::processImageUpload(
                 $request->input('logo'),
                 $name,
