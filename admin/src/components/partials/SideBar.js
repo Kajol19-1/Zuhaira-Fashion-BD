@@ -63,10 +63,10 @@ const SideBar = () => {
                                 </nav>
                             </div>
 
-                            <a class="nav-link" href="tables.html">
+                            <Link class="nav-link" to="product-attributes">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
-                            </a>
+                                Product Attributes
+                            </Link>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer text-silver">
