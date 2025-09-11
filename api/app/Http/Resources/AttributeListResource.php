@@ -22,7 +22,7 @@ class AttributeListResource extends JsonResource
             'created_by'    =>$this->user?->name,
             'created_at'    =>$this->created_at->toDayDateTimeString(),
             'updated_at'    =>$this->created_at != $this->updated_at ? $this->updated_at->toDayDateTimeString():'Not updated yet',
-
+            'value'         =>ValueListResource::collection($this->value),
         ];
     }
 }

@@ -12,11 +12,17 @@ class Attribute extends Model
 
     final public function getAttributeList()
     {
-        return self::query()->with('user')->orderBy('updated_at', 'desc')->paginate(50);
+        return self::query()->with('user', 'value', 'value.user:id,name')->orderBy('updated_at', 'desc')->paginate(50);
     }
 
     final public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+
+    final public function value()
+    {
+        return $this->hasMany(AttributeValue::class);
     }
 }

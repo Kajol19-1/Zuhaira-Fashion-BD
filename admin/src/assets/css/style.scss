@@ -34,3 +34,65 @@
 .red-select {
   accent-color: red;    // changes the dropdown arrow and highlight color in supported browsers
 }
+.small-button {
+  border: none;
+  background: $theme-color;
+  border-radius: 5px;
+  padding: 2px 6px 1px 6px;
+  color: white;
+  @include transition;
+  &:hover{
+    background: $theme-color-light;
+  }
+}
+
+
+
+.value-container-parent{
+ width: 100%;                  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;  
+  align-items: center;
+  gap: 8px;
+
+
+  .value-container {
+  position: relative;
+  width: 100px;
+  background-color: $theme-color;
+  margin: 2px;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  line-height: 30px;
+  font-weight: bolder;
+  cursor: pointer;
+  &:hover .value-buttons{
+    display: block;
+    @include transition;
+  }
+
+  .value-buttons {
+    @include center;
+    @include transition;
+    width: 100px;
+    display: none;
+
+    button {
+      border: 0;
+      padding: 0 6px 0 6px;
+      font-size: 13px;
+      color: $white;
+      border-radius: 3px;
+      line-height: 20px;
+      @include transition;
+      margin: 1px;
+      &:hover{
+        color: black;
+      }
+    }
+  }
+}
+}
+
