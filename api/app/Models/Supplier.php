@@ -69,4 +69,11 @@ class Supplier extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    final public function getSupplierSelectList()
+    {
+        return self::query()
+        ->select('id', 'name', 'phone')
+        ->where('status', self::STATUS_ACTIVE)->get();
+    }
 }

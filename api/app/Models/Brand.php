@@ -10,6 +10,7 @@ class Brand extends Model
     use HasFactory;
     public const IMAGE_UPLOAD_PATH = 'images/uploads/brand/';
     public const THUMB_IMAGE_UPLOAD_PATH = 'images/uploads/brand_thumb/';
+    public const STATUS_ACTIVE = 1;
 
     
     protected $fillable = ['name', 'slug','serial', 'status','description', 'logo', 'user_id'];
@@ -35,6 +36,10 @@ class Brand extends Model
     final public function user()
     {
       return $this->belongsTo(User::class);
+    }
+    public function getBrandNameAndId()
+    {
+      return self::query()->select('id', 'name')->where('status', self::STATUS_ACTIVE)->get();
     }
 
 }

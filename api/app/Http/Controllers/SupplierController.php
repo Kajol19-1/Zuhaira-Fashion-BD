@@ -133,5 +133,11 @@ class SupplierController extends Controller
         return response()->json(['msg'=>'Supplier deleted Successfully', 'cls'=>'warning']);
     }
 
+    public function get_supplier_list()
+    {
+        $suppliers = (new Supplier())->getSupplierSelectList();
+        return response()->json($suppliers);
+    }
+
     
 }

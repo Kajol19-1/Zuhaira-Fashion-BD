@@ -109,4 +109,9 @@ final public function destroy(Brand $brand)
                 ImageManager::uploadImage($name, $width_thumb, $height_thumb, $path_thumb, $file);
                 return  $photo_name;
         }
+    final public function get_brand_list()
+    {
+        $brands = (new Brand())->getBrandNameAndId();
+        return response()->json($brands);
+    }
 }

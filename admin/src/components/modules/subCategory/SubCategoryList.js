@@ -217,11 +217,11 @@ const SubCategoryList = () => {
                                                             <td>
                                                                 <p className={'text-theme'}>Name: {category.name}</p>
                                                                 <p className={'text-info'}>Slug: {category.slug}</p>
-                                                                <p className={'text-theme'}>Category: {category.slug}</p>
+                                                                <p className={'text-theme'}>Category: {category.category_name}</p>
                                                             </td>
                                                             <td>
                                                                 <p className={'text-theme'}>Serial: {category.serial}</p>
-                                                                <p className={'text-info'}>Status: {category.category_name}</p>
+                                                                <p className={'text-info'}>Status: {category.status}</p>
                                                             </td>
                                                             <td>
                                                                     <img onClick={()=>handlePhotoModal(category.photo_full)} 

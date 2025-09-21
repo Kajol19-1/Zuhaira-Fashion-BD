@@ -46,4 +46,9 @@ class SubCategory extends Model
     {
       return $this->belongsTo(Category::class);
     }
+    
+    final public function getCategoryIdAndName(int $category_id)
+    {
+      return self::query()->select('id', 'name')->where('category_id', $category_id)->get();
+    }
 }

@@ -95,6 +95,9 @@ my-table{
         vertical-align: middle;
     }
 }
+.product-table{
+    font-size: 12px;
+}
 .table-image{
     width: 75px ;
     cursor: pointer;
@@ -120,6 +123,10 @@ my-table{
     .No-data-found{
     position:absolute;
 }
+}
+
+.w-30{
+    width: 30px;
 }
 
 
