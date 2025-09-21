@@ -14,16 +14,28 @@ const SideBar = () => {
                                 Dashboard
                             </Link>
                             <div class="sb-sidenav-menu-heading">Product</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#product" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Products
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <div class="collapse" id="product" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <Link class="nav-link" to="/product">Product List</Link>
                                     <Link class="nav-link" to="/product/create">Add Product</Link>
                                     <Link class="nav-link" to="/product/trash">Trash</Link>
+                                </nav>
+                            </div>
+                            <div class="sb-sidenav-menu-heading">Shops</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#shops" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Shop
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="shops" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <Link class="nav-link" to="/shop">Shop List</Link>
+                                    <Link class="nav-link" to="/shop/create">Add Shop</Link>
                                 </nav>
                             </div>
                             <div class="sb-sidenav-menu-heading">Management</div>

@@ -19,6 +19,9 @@ import ProductAttributes from "../modules/productAttribute/ProductAttributes";
 import AddProduct from "../modules/product/AddProduct";
 import AddProductPhoto from "../modules/product/AddProductPhoto";
 import ProductList from "../modules/product/ProductList";
+import ShopAdd from "../modules/shop/ShopAdd";
+import ShopList from "../modules/shop/ShopList";
+import ShopEdit from "../modules/shop/ShopEdit";
 
 const ProjectRouter = createBrowserRouter([
     {
@@ -99,6 +102,21 @@ const ProjectRouter = createBrowserRouter([
             {
                 path: '/product',
                 element : < ProductList/>
+            },
+        
+            {
+                path: '/shop/create',
+                element : < ShopAdd/>
+            },
+
+            {
+                path: '/shop',
+                element : < ShopList/>
+            },
+
+            {
+                path: '/shop/edit/:id',
+                element : < ShopEdit/>
             },
 
             {

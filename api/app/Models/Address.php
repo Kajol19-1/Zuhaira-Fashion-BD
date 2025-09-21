@@ -57,4 +57,9 @@ class Address extends Model
     {
         return $supplier->address()->delete();
     }
+
+    final public function deleteAddressByShopId(Shop $shop)
+    {
+        return $shop->address()->delete();
+    }
 }
